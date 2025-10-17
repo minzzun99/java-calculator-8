@@ -16,7 +16,8 @@ public class Delimiter {
             input = validateCustomDelimiter(input);
         }
 
-        return input.split(createRegex());
+        // 마지막 문자열이 빈 문자열일 경우 빈 문자열이 제거되지 않고 유지되도록
+        return input.split(createRegex(), -1);
     }
 
     private String createRegex() {
