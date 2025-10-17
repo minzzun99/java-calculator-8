@@ -55,4 +55,25 @@ public class DelimiterTest {
         assertThatThrownBy(() -> delimiter.split("//1\\n11213"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("잘못된 입력 형식의 첫 구분자 파싱")
+    void 잘못된_입력_형식의_첫_구분자_파싱() {
+        Delimiter delimiter = new Delimiter();
+        assertThat(delimiter.split(",1,2,3")).containsExactly("", "1", "2", "3");
+    }
+
+    @Test
+    @DisplayName("잘못된 입력 형식의 중간 구분자 파싱")
+    void 잘못된_입력_형식의_중간_구분자_파싱() {
+        Delimiter delimiter = new Delimiter();
+        assertThat(delimiter.split("1,,2")).containsExactly("1", "", "2");
+    }
+
+    @Test
+    @DisplayName("잘못된 입력 형식의 끝 구분자 파싱")
+    void 잘못된_입력_형식의_끝_구분자_파싱() {
+        Delimiter delimiter = new Delimiter();
+        assertThat(delimiter.split("1,2,")).containsExactly("1", "2", "");
+    }
 }
