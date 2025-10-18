@@ -26,4 +26,22 @@ public class CalculatorTest {
         Calculator calculator = new Calculator();
         assertThat(calculator.calculate("")).isEqualTo(0);
     }
+
+    @ParameterizedTest
+    @DisplayName("양수가 아닌 숫자 입력 예외 발생")
+    @ValueSource(strings = {"-1,1", "0,1", "-2,-3"})
+    void 양수가_아닌_숫자_입력_예외_발생(String input) {
+        Calculator calculator = new Calculator();
+        assertThatThrownBy(() -> calculator.calculate(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
+    @DisplayName("숫자가 아닌 입력 예외 발생")
+    @ValueSource(strings = {"A,B", "ㄱ", "a"})
+    void 숫자가_아닌_입력_예외_발생(String input) {
+        Calculator calculator = new Calculator();
+        assertThatThrownBy(() -> calculator.calculate(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
