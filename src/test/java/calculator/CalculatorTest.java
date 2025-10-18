@@ -44,4 +44,11 @@ public class CalculatorTest {
         assertThatThrownBy(() -> calculator.calculate(input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("덧셈 결과 확인")
+    void 덧셈_결과_확인() {
+        Calculator calculator = new Calculator();
+        assertThat(calculator.calculate("//;\\n1,2:3;4")).isEqualTo(10);
+    }
 }
