@@ -1,5 +1,9 @@
 package calculator.model;
 
+import static calculator.model.ErrorMessage.INVALID_INPUT_FORMAT;
+import static calculator.model.ErrorMessage.NOT_NUMBER_FORMAT;
+import static calculator.model.ErrorMessage.NOT_POSITIVE_NUMBER;
+
 public class Calculator {
     private final Delimiter delimiter;
 
@@ -21,7 +25,7 @@ public class Calculator {
     private void validateNumbers(String[] numbers) {
         for (String number : numbers) {
             if (number.isEmpty()) {
-                throw new IllegalArgumentException("잘못된 형식으로 입력하셨습니다.");
+                throw new IllegalArgumentException(INVALID_INPUT_FORMAT.getMessage());
             }
             validatePositiveNumber(number);
         }
@@ -30,10 +34,10 @@ public class Calculator {
     private void validatePositiveNumber(String number) {
         try {
             if (Integer.parseInt(number) <= 0) {
-                throw new IllegalArgumentException("양수가 아닌 숫자는 입력할 수 없습니다. 양수를 입력해주세요.");
+                throw new IllegalArgumentException(NOT_POSITIVE_NUMBER.getMessage());
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자를 입력해주세요.");
+            throw new IllegalArgumentException(NOT_NUMBER_FORMAT.getMessage());
         }
     }
 

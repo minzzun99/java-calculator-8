@@ -1,5 +1,9 @@
 package calculator.model;
 
+import static calculator.model.ErrorMessage.INVALID_CUSTOM_FORMAT;
+import static calculator.model.ErrorMessage.INVALID_CUSTOM_LENGTH;
+import static calculator.model.ErrorMessage.INVALID_CUSTOM_NUMERIC;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -52,7 +56,7 @@ public class Delimiter {
     private int validateInputFormat(String input) {
         int index = input.indexOf("\\n");
         if (index == -1) {
-            throw new IllegalArgumentException("커스텀 구분자는 '//'와 '\\n' 사이의 문자로 입력 가능합니다.");
+            throw new IllegalArgumentException(INVALID_CUSTOM_FORMAT.getMessage());
         }
 
         return index;
@@ -62,7 +66,7 @@ public class Delimiter {
     private char validateLength(String input, int index) {
         String customLine = input.substring(2, index);
         if (customLine.length() != 1) {
-            throw new IllegalArgumentException("커스텀 구분자는 반드시 하나의 문자로 구성되어야 합니다.");
+            throw new IllegalArgumentException(INVALID_CUSTOM_LENGTH.getMessage());
         }
 
         return customLine.charAt(0);
@@ -71,7 +75,7 @@ public class Delimiter {
     // 커스텀 구분자 숫자 여부 검증
     private void validateNumericValue(char customDelimiter) {
         if (customDelimiter >= '0' && customDelimiter <= '9') {
-            throw new IllegalArgumentException("커스텀 구분자는 숫자를 사용할 수 없습니다.");
+            throw new IllegalArgumentException(INVALID_CUSTOM_NUMERIC.getMessage());
         }
     }
 }
