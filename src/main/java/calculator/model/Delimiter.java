@@ -9,8 +9,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Delimiter {
+    private static final String CUSTOM_DELIMITER_PREFIX = "//";
+    private static final String CUSTOM_DELIMITER_SUFFIX = "\\n";
+    private static final int VALID_DELIMITER_LENGTH = 1;
+    private static final int CUSTOM_DELIMITER_START = 2;
+
     private final Set<Character> delimiters;
 
+    // 기본 구분자
     public Delimiter() {
         delimiters = new HashSet<>(Arrays.asList(',', ':'));
     }
@@ -24,6 +30,7 @@ public class Delimiter {
         return input.split(createRegex(), -1);
     }
 
+    // split 메서드 사용 시 구분자들로 분리하기위한 전처리
     private String createRegex() {
         StringBuilder regex = new StringBuilder("[");
         for (char delimiter : delimiters) {
@@ -39,7 +46,7 @@ public class Delimiter {
 
     // 커스텀 구분자 존재 여부 확인
     private boolean checkCustomDelimiter(String input) {
-        return input.startsWith("//");
+        return input.startsWith(CUSTOM_DELIMITER_PREFIX);
     }
 
     // 커스텀 구분자 검증
@@ -49,12 +56,12 @@ public class Delimiter {
         validateNumericValue(customDelimiter);
 
         addCustomDelimiter(customDelimiter);
-        return input.substring(index + 2);
+        return input.substring(index + CUSTOM_DELIMITER_START);
     }
 
     // 커스텀 구분자 입력 포멧 검증
     private int validateInputFormat(String input) {
-        int index = input.indexOf("\\n");
+        int index = input.indexOf(CUSTOM_DELIMITER_SUFFIX);
         if (index == -1) {
             throw new IllegalArgumentException(INVALID_CUSTOM_FORMAT.getMessage());
         }
@@ -64,8 +71,8 @@ public class Delimiter {
 
     // 커스텀 구분자 갯수 검증
     private char validateLength(String input, int index) {
-        String customLine = input.substring(2, index);
-        if (customLine.length() != 1) {
+        String customLine = input.substring(CUSTOM_DELIMITER_START, index);
+        if (customLine.length() != VALID_DELIMITER_LENGTH) {
             throw new IllegalArgumentException(INVALID_CUSTOM_LENGTH.getMessage());
         }
 
